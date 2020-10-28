@@ -19,12 +19,17 @@ repositories {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 30
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     sourceSets {
@@ -42,8 +47,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:mediarouter-v7:25.4.0'
-    compile 'com.google.android.gms:play-services-cast:10.2.4'
+    // implementation 'com.android.support:support-v4:25.4.0'
+    // implementation 'com.android.support:appcompat-v7:25.4.0'
+    // implementation 'com.android.support:mediarouter-v7:25.4.0'
+    implementation 'androidx.mediarouter:mediarouter:1.2.0'
+    implementation 'com.google.android.gms:play-services-cast:19.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

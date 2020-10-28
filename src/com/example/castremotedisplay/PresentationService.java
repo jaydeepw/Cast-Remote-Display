@@ -228,4 +228,20 @@ public class PresentationService extends CastRemoteDisplayLocalService {
         }
     }
 
+    private class SecondScreenPresentation extends CastPresentation {
+
+        private final String TAG = "FirstScreenPresentation";
+
+        public SecondScreenPresentation(Context context, Display display) {
+            super(context, display);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            setContentView(R.layout.first_screen_layout);
+        }
+    }
+
 }

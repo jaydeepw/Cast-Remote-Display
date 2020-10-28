@@ -18,12 +18,13 @@ package com.example.castremotedisplay;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.app.MediaRouteButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.mediarouter.app.MediaRouteButton;
 
 /*
  * Composite UI for a button with a cast icon and text label

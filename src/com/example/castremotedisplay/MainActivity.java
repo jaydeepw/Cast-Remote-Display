@@ -26,20 +26,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.MediaRouteButton;
-import android.support.v7.media.MediaRouteSelector;
-import android.support.v7.media.MediaRouter;
-import android.support.v7.media.MediaRouter.RouteInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.mediarouter.app.MediaRouteButton;
+import androidx.mediarouter.media.MediaRouteSelector;
+import androidx.mediarouter.media.MediaRouter;
 
 /**
  * Main activity for application that displays a button to allow the user to select a Cast device
  * for the Remote Display API.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
 
     private static final String TAG = "MainActivity";
     protected static final String INTENT_EXTRA_CAST_DEVICE = "CastDevice";
@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
     private final MediaRouter.Callback mMediaRouterCallback =
             new MediaRouter.Callback() {
                 @Override
-                public void onRouteAdded(MediaRouter router, RouteInfo route) {
+                public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo route) {
                     if (++mRouteCount == 1) {
                         // Show the button when a device is discovered.
                         if (mMediaRouterButtonView != null) {
@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
 
                 //Temporary workaround until onRouteAdded call fixed
                 @Override
-                public void onRouteChanged(MediaRouter router, RouteInfo route) {
+                public void onRouteChanged(MediaRouter router, MediaRouter.RouteInfo route) {
                     if (++mRouteCount == 1) {
                         // Show the button when a device is discovered.
                         if (mMediaRouterButtonView != null) {
@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 @Override
-                public void onRouteRemoved(MediaRouter router, RouteInfo route) {
+                public void onRouteRemoved(MediaRouter router, MediaRouter.RouteInfo route) {
                     if (--mRouteCount == 0) {
                         // Hide the button if there are no devices discovered.
                         if (mMediaRouterButtonView != null) {
@@ -132,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 @Override
-                public void onRouteSelected(MediaRouter router, RouteInfo info) {
+                public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
                     Log.d(TAG, "onRouteSelected");
                     CastDevice castDevice = CastDevice.getFromBundle(info.getExtras());
                     if (castDevice != null) {
@@ -144,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 @Override
-                public void onRouteUnselected(MediaRouter router, RouteInfo info) {
+                public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
                 }
             };
 

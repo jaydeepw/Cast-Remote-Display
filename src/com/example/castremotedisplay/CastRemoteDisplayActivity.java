@@ -24,19 +24,19 @@ import com.google.android.gms.common.api.Status;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.MediaRouteActionProvider;
-import android.support.v7.media.MediaRouteSelector;
-import android.support.v7.media.MediaRouter;
-import android.support.v7.media.MediaRouter.RouteInfo;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.mediarouter.app.MediaRouteActionProvider;
+import androidx.mediarouter.media.MediaRouteSelector;
+import androidx.mediarouter.media.MediaRouter;
 
 /**
  * <h3>CastRemoteDisplayActivity</h3>
@@ -45,7 +45,7 @@ import android.widget.Toast;
  * Cast device using a {@link com.google.android.gms.cast.CastPresentation}.
  * </p>
  * <p>
- * The activity uses the {@link MediaRouter} API to select a cast route
+ * The activity uses the {@link androidx.mediarouter.media.MediaRouter} API to select a cast route
  * using a menu item.
  * When a presentation display is available, we stop
  * showing content in the main activity and instead start a {@link CastRemoteDisplayLocalService}
@@ -55,7 +55,7 @@ import android.widget.Toast;
  * to the Android log which you can read using <code>adb logcat</code>.
  * </p>
  */
-public class CastRemoteDisplayActivity extends ActionBarActivity {
+public class CastRemoteDisplayActivity extends FragmentActivity {
 
     private final String TAG = "CastRDisplayActivity";
 
@@ -120,7 +120,7 @@ public class CastRemoteDisplayActivity extends ActionBarActivity {
     private void setupActionBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
-        setSupportActionBar(mToolbar);
+        // setSupportActionBar(mToolbar);
     }
 
     private void setFullScreen() {
@@ -181,7 +181,7 @@ public class CastRemoteDisplayActivity extends ActionBarActivity {
      * @param info The route information
      * @return Whether the route information corresponds to the currently selected device.
      */
-    private boolean isCurrentDevice(RouteInfo info) {
+    private boolean isCurrentDevice(MediaRouter.RouteInfo info) {
         if (mCastDevice == null) {
             // No device selected
             return false;
@@ -197,13 +197,13 @@ public class CastRemoteDisplayActivity extends ActionBarActivity {
     private final MediaRouter.Callback mMediaRouterCallback =
             new MediaRouter.Callback() {
                 @Override
-                public void onRouteSelected(MediaRouter router, RouteInfo info) {
+                public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
                     // Should not happen since this activity will be closed if there
                     // is no selected route
                 }
 
                 @Override
-                public void onRouteUnselected(MediaRouter router, RouteInfo info) {
+                public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
                     if (isRemoteDisplaying()) {
                         CastRemoteDisplayLocalService.stopService();
                     }
@@ -247,6 +247,11 @@ public class CastRemoteDisplayActivity extends ActionBarActivity {
 
                         mCastDevice = null;
                         CastRemoteDisplayActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onRemoteDisplaySessionEnded(CastRemoteDisplayLocalService castRemoteDisplayLocalService) {
+
                     }
                 });
     }
