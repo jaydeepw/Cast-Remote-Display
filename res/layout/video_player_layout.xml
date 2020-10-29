@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2015 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,34 +15,23 @@
 
 <!-- The content that we show on secondary displays.
      See corresponding Java code CastRemoteDisplayMainActivity.java. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
 
-<Constra xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <android.opengl.GLSurfaceView
-                android:id="@+id/surface_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <TextView android:id="@+id/title"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:paddingTop="10dp"
-                  android:gravity="center_horizontal"
-                  android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:textColor="@color/white"
-                  android:text="@string/app_description"
-                  android:textAllCaps="true"/>
-
-    </RelativeLayout>
-</Constra>
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/embeddedVideoView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#F00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:resize_mode="fixed_height"
+        tools:padding="4dp"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,18 +16,34 @@
 
 package com.example.castremotedisplay;
 
-import com.google.android.gms.cast.CastPresentation;
-import com.google.android.gms.cast.CastRemoteDisplayLocalService;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.gms.cast.CastPresentation;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -56,7 +72,7 @@ public class PresentationService extends CastRemoteDisplayLocalService {
 
     @Override
     public void onCreatePresentation(Display display) {
-        Log.i(TAG,"syatam: onCreatePresentation");
+        Log.i(TAG, "syatam: onCreatePresentation");
         createPresentation(display);
     }
 
@@ -75,7 +91,8 @@ public class PresentationService extends CastRemoteDisplayLocalService {
 
     private void createPresentation(Display display) {
         dismissPresentation();
-        mPresentation = new FirstScreenPresentation(this, display);
+        // mPresentation = new FirstScreenPresentation(this, display);
+        mPresentation = new SecondScreenPresentation(this, display);
 
         try {
             mPresentation.show();
@@ -218,8 +235,8 @@ public class PresentationService extends CastRemoteDisplayLocalService {
             }
 
             private int findConfigAttrib(EGL10 egl, EGLDisplay display, EGLConfig config,
-                    int attribute,
-                    int defaultValue) {
+                                         int attribute,
+                                         int defaultValue) {
                 if (egl.eglGetConfigAttrib(display, config, attribute, mValue)) {
                     return mValue[0];
                 }
@@ -240,7 +257,40 @@ public class PresentationService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.first_screen_layout);
+            setContentView(R.layout.video_player_layout);
+            initializePlayer();
+        }
+
+        private void initializePlayer() {
+            // Create a default TrackSelector
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelection.Factory videoTrackSelectionFactory =
+                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
+            TrackSelector trackSelector =
+                    new DefaultTrackSelector(videoTrackSelectionFactory);
+
+            //Initialize the player
+            SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+
+            //Initialize simpleExoPlayerView
+            SimpleExoPlayerView simpleExoPlayerView = findViewById(R.id.embeddedVideoView);
+            simpleExoPlayerView.setPlayer(player);
+
+            // Produces DataSource instances through which media data is loaded.
+            DataSource.Factory dataSourceFactory =
+                    new DefaultDataSourceFactory(getContext(), "sss");
+
+            // Produces Extractor instances for parsing the media data.
+            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+            // This is the MediaSource representing the media to be played.
+            Uri videoUri = Uri.parse("https://res.cloudinary.com/demo/video/upload/v1524750367/Liverpool_vs_Roma_sum.mp4");
+            MediaSource videoSource = new ExtractorMediaSource(videoUri,
+                    dataSourceFactory, extractorsFactory, null, null);
+
+            // Prepare the player with the source.
+            player.prepare(videoSource);
+            player.setPlayWhenReady(true);
         }
     }
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2015 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,36 +13,37 @@
      limitations under the License.
 -->
 
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/background">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
 
     <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="160dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/text"
-            android:text="@string/app_description"
-            android:textAllCaps="true"/>
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="160dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/app_description"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text" />
 
     <com.example.castremotedisplay.MediaRouterButtonView
-            android:id="@+id/media_route_button_view"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_centerInParent="true"
-            custom:buttonText="@string/play"
-            android:background="@drawable/orange_button"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
-            android:paddingRight="20dp"
-            android:paddingLeft="1dp"
-            android:visibility="gone"/>
+        android:id="@+id/media_route_button_view"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/orange_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="1dp"
+        android:paddingTop="1dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="1dp"
+        android:visibility="gone"
+        custom:buttonText="@string/play"
+        tools:visibility="visible" />
 </RelativeLayout>
